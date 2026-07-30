@@ -20,6 +20,12 @@ in
     platforms = [ "aarch64-linux" ];
     hydraPlatforms = [ "" ];
   };
+  kernelPatches = [
+    {
+      name = "synaptics-s3706b-fallback-pdt";
+      patch = ./synaptics-s3706b-fallback-pdt.patch;
+    }
+  ];
 }).overrideAttrs
   (old: {
     postUnpack = ''
