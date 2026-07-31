@@ -31,11 +31,11 @@
     {
       packages = {
         x86_64-linux = {
-          uboot-img = uboot-img;
+          inherit uboot-img;
           fajita-install = x86Pkgs.callPackage ./pkgs/fajita-install.nix { };
         };
         aarch64-linux = {
-          uboot-img = uboot-img;
+          inherit uboot-img;
           fajita-install = aarch64Pkgs.callPackage ./pkgs/fajita-install.nix { };
         };
       };
@@ -49,7 +49,7 @@
           {
             oneplus-fajita = {
               enable = true;
-              user = "user";
+              user = "marcus";
             };
             users.users =
               let
@@ -58,9 +58,14 @@
               in
               {
                 root.hashedPassword = pw;
-                user = {
+                marcus = {
                   isNormalUser = true;
                   hashedPassword = pw;
+                  initialHashedPassword = "$y$j9T$macjSemIfW9l003gAalB5.$1LpRma6WvwC7WwcvkwuwifLrLxcyrOuiKW70/SnC5J0";
+
+                  openssh.authorizedKeys.keys = [
+                    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqWWPb0DqvTwAJKd0Nb/MOdplnTJgxQBSGbJkL2S+nz marcus@butterbee"
+                  ];
                 };
               };
             networking.hostName = "fajita";
@@ -68,7 +73,14 @@
               enable = true;
               settings.PermitRootLogin = "yes";
             };
+            security.sudo.wheelNeedsPassword = false;
+
             nix.channel.enable = false;
+            nix.settings.experimental-features = [
+              "nix-command"
+              "flakes"
+              "pipe-operators"
+            ];
             system.stateVersion = "26.05";
           }
         ];

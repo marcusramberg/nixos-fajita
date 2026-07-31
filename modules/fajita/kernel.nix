@@ -4,13 +4,13 @@
 }:
 let
   src = fetchTarball {
-    url = "https://gitlab.com/sdm845-mainline/linux/-/archive/sdm845-7.1-rc1-r0/linux-sdm845-7.1-rc1-r0.tar.gz";
-    sha256 = "sha256-/K74EnSqTkkNJAUe7+g7Rw+aqNVBO5dFyXrSwAKvsdc=";
+    url = "https://codeberg.org/sdm845/linux/archive/sdm845-next-20260730-1.tar.gz";
+    sha256 = "sha256:0nn5z4wc2sfmbfxfndai1z94ba3ldr5xk6pi6x2c2qb879wjmxmb";
   };
-  modDirVersion = "7.1.0-rc1";
+  modDirVersion = "7.2.0-rc5-next-20260730";
 in
 (linuxManualConfig {
-  src = src;
+  inherit src;
   version = "${modDirVersion}";
   configfile = ./config.aarch64;
   features = {

@@ -116,6 +116,7 @@ in
       enableWarnings = false;
       directories = [
         "/var/log"
+        "/etc/nixos"
         "/var/lib/bluetooth"
         "/var/lib/NetworkManager"
         "/etc/NetworkManager/system-connections"
@@ -127,6 +128,9 @@ in
       users."${user}" = {
         directories = [
           "Data"
+          "Documents"
+          "Downloads"
+          "Pictures"
           "Local"
 
           ".config/chromium"
@@ -138,6 +142,7 @@ in
 
           ".local/share/flatpak"
           ".var/app"
+          ".ssh"
         ];
       };
     };
@@ -192,6 +197,7 @@ in
       "input" # needed for haptics
       "networkmanager"
       "video"
+      "wheel"
     ];
     users.mutableUsers = false;
 
