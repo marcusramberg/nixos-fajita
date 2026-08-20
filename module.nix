@@ -1,4 +1,4 @@
-{ impermanence, ... }:
+{ ... }:
 {
   lib,
   config,
@@ -11,9 +11,7 @@ let
 in
 {
   imports = [
-    impermanence.nixosModules.impermanence
     ./modules/fajita
-    ./modules/phosh.nix
   ];
 
   options.oneplus-fajita = with lib; {
@@ -111,42 +109,6 @@ in
       neededForBoot = true;
     };
 
-    environment.persistence."${persistPath}" = {
-      hideMounts = true;
-      enableWarnings = false;
-      directories = [
-        "/var/log"
-        "/etc/nixos"
-        "/var/lib/bluetooth"
-        "/var/lib/NetworkManager"
-        "/etc/NetworkManager/system-connections"
-      ];
-      files = [
-        "/etc/machine-id"
-        "/etc/ssh/ssh_host_ed25519_key"
-      ];
-      users."${user}" = {
-        directories = [
-          "Data"
-          "Documents"
-          "Downloads"
-          "Pictures"
-          "Local"
-
-          ".config/chromium"
-          ".cache/chromium"
-
-          ".local/share/evolution"
-          ".cache/evolution/addressbook"
-          ".cache/evolution/calendar"
-
-          ".local/share/flatpak"
-          ".var/app"
-          ".ssh"
-        ];
-      };
-    };
-
     environment.systemPackages = with pkgs; [
       chatty # SMS
       firefox-mobile
@@ -175,8 +137,6 @@ in
       "olm-3.2.16" # indirect dependency of chatty
     ];
 
-    services.flatpak.enable = true;
-
     programs.calls.enable = true;
 
     services.geoclue2.enable = true;
@@ -185,22 +145,6 @@ in
     environment.etc."machine-info".text = lib.mkDefault ''
       CHASSIS="handset"
     '';
-
-    services.xserver.desktopManager.phosh = {
-      user = user;
-      phocConfig.outputs.DSI-1.scale = 3;
-    };
-
-    users.users."${user}".extraGroups = [
-      "dialout"
-      "feedbackd"
-      "input" # needed for haptics
-      "networkmanager"
-      "video"
-      "wheel"
-    ];
-    users.mutableUsers = false;
-
     nix.distributedBuilds = true;
 
     documentation.enable = false;

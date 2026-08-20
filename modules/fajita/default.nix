@@ -241,6 +241,8 @@ in
   # Enables the Performance power mode in Gnome Settings
   services.tuned = {
     enable = true;
+    # TuneD replaces power-profiles-daemon; keep its D-Bus API for GNOME/shells
+    ppdSupport = true;
     # Set performance as default for a smoother desktop
     ppdSettings.main.default = "performance";
   };
@@ -283,10 +285,12 @@ in
       };
     };
 
-  nixpkgs.hostPlatform = lib.recursiveUpdate (lib.systems.elaborate "aarch64-linux") {
+  # mkForce: clan (and similar) set hostPlatform as a plain string, which cannot
+  # merge with the elaborated attrset the kernel target overrides need.
+  nixpkgs.hostPlatform = lib.mkForce (lib.recursiveUpdate (lib.systems.elaborate "aarch64-linux") {
     linux-kernel.target = "vmlinuz.efi";
     linux-kernel.installTarget = "zinstall";
-  };
+  });
 
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
 

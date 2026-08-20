@@ -28,7 +28,7 @@ let
     }:
     let
       export = k: v: ''export ${k}="${v}"'';
-      envStr = lib.mapAttrsToList export env |> unlines;
+      envStr = unlines (lib.mapAttrsToList export env);
       wrapper = mkScript name ''
         ${preRun}
         ${envStr}

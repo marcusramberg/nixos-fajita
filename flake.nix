@@ -5,9 +5,6 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/569d578509928497eddc3fdbf94a799027050be4";
     };
-    impermanence = {
-      url = "github:nix-community/impermanence/7b1d382faf603b6d264f58627330f9faa5cba149";
-    };
   };
 
   outputs =
