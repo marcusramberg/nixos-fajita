@@ -294,6 +294,10 @@ in
 
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
 
+  # Must match kernel.nix; the mkForce above does not reach pkgs.stdenv under
+  # every flake's wiring, and the default (Image) is not EFI-loadable.
+  system.boot.loader.kernelFile = "vmlinuz.efi";
+
   # Boot entries are too long; try to shorten them
   system.nixos.label = "";
 
