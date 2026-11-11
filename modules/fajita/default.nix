@@ -99,7 +99,6 @@ in
     };
     efi.canTouchEfiVariables = false;
   };
-  boot.initrd.systemd.enable = true;
   boot.initrd.systemd.initrdBin = [ pkgs.util-linux ];
   boot.initrd.services.udev.rules = ''
     SUBSYSTEM=="block", ACTION!="remove", ENV{ID_PART_ENTRY_NAME}=="userdata", RUN+="${pkgs.util-linux}/bin/losetup --partscan --find --sector-size 4096 --loop-ref userdata /dev/%k"
@@ -287,10 +286,12 @@ in
 
   # mkForce: clan (and similar) set hostPlatform as a plain string, which cannot
   # merge with the elaborated attrset the kernel target overrides need.
-  nixpkgs.hostPlatform = lib.mkForce (lib.recursiveUpdate (lib.systems.elaborate "aarch64-linux") {
-    linux-kernel.target = "vmlinuz.efi";
-    linux-kernel.installTarget = "zinstall";
-  });
+  nixpkgs.hostPlatform = lib.mkForce (
+    lib.recursiveUpdate (lib.systems.elaborate "aarch64-linux") {
+      linux-kernel.target = "vmlinuz.efi";
+      linux-kernel.installTarget = "zinstall";
+    }
+  );
 
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
 
