@@ -1,5 +1,5 @@
 {
-  firefox-esr-140-unwrapped,
+  firefox-esr-unwrapped,
   fetchFirefoxAddon,
   fetchFromGitLab,
   mkEnvWrapper,
@@ -11,7 +11,7 @@ let
   profile = ''"$HOME/Local/.state/firefox"'';
   # Unexhaustive list of settings:
   # https://searchfox.org/firefox-main/source/modules/libpref/init/StaticPrefList.yaml
-  firefox = firefox-esr-140-unwrapped // {
+  firefox = firefox-esr-unwrapped // {
     requireSigning = false;
     allowAddonSideload = true;
   };
